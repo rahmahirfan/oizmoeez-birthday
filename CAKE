@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pixel Cake Celebration</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Instruction */
+  #instruction {
+    font-family: "Times New Roman", serif;
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  /* Birthday Text */
+  #birthdayText {
+    position: absolute;
+    top: 10%;
+    font-family: "Times New Roman", serif;
+    font-size: 48px;
+    color: #eac8f0; /* Start with cake top color */
+    opacity: 0;
+    white-space: nowrap;
+    z-index: 2;
+    animation: none; /* will trigger on click */
+  }
+
+  @keyframes textFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* Pixel cake */
+  .cake {
+    display: grid;
+    grid-template-columns: repeat(17, 18px);
+    grid-auto-rows: 18px;
+    animation: bounce 1s infinite alternate ease-in-out;
+    position: relative;
+    z-index: 3;
+  }
+
+  .px { width: 18px; height: 18px; }
+
+  .layer-top { background: #eac8f0; }
+  .layer-mid { background: #f4c6de; }
+  .layer-bottom { background: #f9bcd6; }
+  .highlight { background: #ffe6f2; }
+  .plate { background: #f4f4f4; }
+  .strawberry { background: #ff6b81; }
+  .leaf { background: #6aba70; }
+
+  .candle { background: #9ad9ff; cursor: pointer; }
+  .flame { background: #ffd54f; cursor: pointer; animation: flicker 0.3s infinite alternate; }
+
+  /* Bounce animation for cake & synced text */
+  @keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-8px); }
+  }
+
+  @keyframes flicker {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  /* Confetti */
+  .confetti {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    z-index: 1;
+    pointer-events: none;
+    animation: confetti-pop 2s forwards;
+  }
+  @keyframes confetti-pop {
+    0% { opacity:1; transform: translate(0,0) rotate(0deg) scale(1); }
+    50% { transform: translate(var(--x), var(--y)) rotate(360deg) scale(1.2); }
+    100% { opacity:0; transform: translate(var(--x), var(--yFinal)) rotate(720deg) scale(0.8); }
+  }
+
+  /* Pixel Hearts */
+  .heart {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.9;
+    animation: floatUp 4s linear forwards;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 0.9; }
+    50% { transform: translateY(-200px) scale(1.1); opacity: 1; }
+    100% { transform: translateY(-600px) scale(0.8); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="instruction">Click a flame to blow all candles!</div>
+<div id="birthdayText">Happy Birthday Moiz!</div>
+
+<div class="cake">
+  <!-- Flames -->
+  <div></div><div></div><div class="flame px" data-flame></div><div></div>
+  <div class="flame px" data-flame></div><div></div><div class="flame px" data-flame></div>
+  <div></div><div class="flame px" data-flame></div><div></div>
+  <div class="flame px" data-flame></div><div></div><div></div><div></div><div></div><div></div><div></div>
+
+  <!-- Long candles -->
+  <div></div><div></div><div class="candle px"></div><div class="candle px"></div>
+  <div class="candle px"></div><div></div><div class="candle px"></div>
+  <div class="candle px"></div><div class="candle px"></div><div class="candle px"></div>
+  <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+
+  <!-- Cake Top Layer -->
+  <div></div><div class="strawberry px"></div><div class="leaf px"></div>
+  <div class="highlight px"></div><div class="leaf px"></div><div class="strawberry px"></div>
+  <div class="leaf px"></div><div class="highlight px"></div><div class="leaf px"></div>
+  <div class="strawberry px"></div><div class="leaf px"></div><div class="highlight px"></div>
+  <div></div><div></div><div></div><div></div><div></div>
+
+  <!-- Pink frosting top -->
+  <div class="layer-top px"></div><div class="layer-top px"></div><div class="layer-top px"></div>
+  <div class="layer-top px"></div><div class="layer-top px"></div><div class="layer-top px"></div>
+  <div class="layer-top px"></div><div class="layer-top px"></div><div class="layer-top px"></div>
+  <div class="layer-top px"></div><div class="layer-top px"></div><div class="layer-top px"></div>
+  <div class="layer-top px"></div><div></div><div></div><div></div><div></div>
+
+  <!-- Middle frosting -->
+  <div class="layer-mid px"></div><div class="layer-mid px"></div><div class="layer-mid px"></div>
+  <div class="layer-mid px"></div><div class="layer-mid px"></div><div class="layer-mid px"></div>
+  <div class="layer-mid px"></div><div class="layer-mid px"></div><div class="layer-mid px"></div>
+  <div class="layer-mid px"></div><div class="layer-mid px"></div><div class="layer-mid px"></div>
+  <div class="layer-mid px"></div><div class="layer-mid px"></div><div></div><div></div><div></div>
+
+  <!-- Bottom cake layer -->
+  <div class="layer-bottom px"></div><div class="layer-bottom px"></div><div class="layer-bottom px"></div>
+  <div class="layer-bottom px"></div><div class="layer-bottom px"></div><div class="layer-bottom px"></div>
+  <div class="layer-bottom px"></div><div class="layer-bottom px"></div><div class="layer-bottom px"></div>
+  <div class="layer-bottom px"></div><div class="layer-bottom px"></div><div class="layer-bottom px"></div>
+  <div class="layer-bottom px"></div><div class="layer-bottom px"></div><div></div><div></div><div></div>
+
+  <!-- Plate -->
+  <div></div><div class="plate px"></div><div class="plate px"></div>
+  <div class="plate px"></div><div class="plate px"></div><div class="plate px"></div>
+  <div class="plate px"></div><div class="plate px"></div><div class="plate px"></div>
+  <div class="plate px"></div><div class="plate px"></div><div class="plate px"></div>
+  <div class="plate px"></div><div></div><div></div><div></div><div></div>
+</div>
+
+<script>
+const flames = document.querySelectorAll('[data-flame]');
+const instruction = document.getElementById('instruction');
+const birthdayText = document.getElementById('birthdayText');
+
+function createMegaConfetti(x, y) {
+  const colors = ['#ff3c38','#ffdd3c','#3cff72','#3c8bff','#d13cff','#ff8c00','#00ffff','#ff00ff'];
+  for (let i=0;i<150;i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = `${x}px`;
+    confetti.style.top = `${y}px`;
+    const dx = (Math.random()-0.5)*window.innerWidth*1.2 + 'px';
+    const dy = Math.random()*-400 + 'px';
+    const dyFinal = Math.random()*window.innerHeight + 200 + 'px';
+    confetti.style.setProperty('--x', dx);
+    confetti.style.setProperty('--y', dy);
+    confetti.style.setProperty('--yFinal', dyFinal);
+    confetti.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+    confetti.style.width = `${8 + Math.random()*8}px`;
+    confetti.style.height = `${8 + Math.random()*8}px`;
+    document.body.appendChild(confetti);
+    confetti.addEventListener('animationend', () => confetti.remove());
+  }
+}
+
+function createHearts() {
+  for (let i=0;i<20;i++){
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '💖';
+    heart.style.left = Math.random()*window.innerWidth + 'px';
+    heart.style.fontSize = 14 + Math.random()*20 + 'px';
+    heart.style.animationDuration = 3 + Math.random()*2 + 's';
+    document.body.appendChild(heart);
+    heart.addEventListener('animationend', () => heart.remove());
+  }
+}
+
+flames.forEach(f => {
+  f.addEventListener('click', () => {
+    flames.forEach(flame => flame.style.opacity = '0');
+    instruction.style.display = 'none';
+
+    // Confetti
+    const cakeRect = document.querySelector('.cake').getBoundingClientRect();
+    const x = cakeRect.left + cakeRect.width/2;
+    const y = cakeRect.top;
+    createMegaConfetti(x, y);
+
+    // Hearts
+    createHearts();
+    setInterval(createHearts, 500); // keep hearts popping for a bit
+
+    // Show text, synced with cake bounce
+    birthdayText.style.opacity = '1';
+    birthdayText.style.color = '#eac8f0'; // cake-like pastel
+    birthdayText.style.animation = 'textFadeIn 1s forwards, bounce 1s infinite alternate ease-in-out';
+  });
+});
+</script>
+
+</body>
+</html>
